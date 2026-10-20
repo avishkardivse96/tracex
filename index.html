@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillSwap – Learn from students, teach what you know</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1f3d;--navy2:#1c3157;--blue:#3b6fd4;--blue-soft:#e8effc;--bg:#fff;--grey:#f3f4f6;--line:#e1e4ea;--text:#1d2535;--mute:#5d677b;--ok:#2f7d5b;--bad:#a8423f;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.6 Inter,system-ui,sans-serif;color:var(--text);background:var(--bg)}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;color:var(--navy);line-height:1.15;margin:0 0 .5em;font-weight:600}
+h1{font-size:clamp(2.3rem,6vw,3.8rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.5vw,2.2rem)}
+h3{font-size:1.2rem}
+p{margin:0 0 1em}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.95);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font:600 1.4rem Newsreader,Georgia,serif;color:var(--navy);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{width:26px;height:26px;border-radius:7px;background:var(--navy);display:grid;place-items:center;color:#fff;font:600 .9rem Inter,sans-serif;font-style:normal}
+nav{display:flex;gap:4px}
+nav a{padding:8px 12px;border-radius:8px;color:var(--mute);text-decoration:none;font-size:.95rem;font-weight:500}
+nav a:hover{background:var(--grey);color:var(--navy)}
+nav a.on{background:var(--blue-soft);color:var(--navy)}
+.menu{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer;color:var(--navy)}
+.badge{background:var(--blue);color:#fff;border-radius:99px;font-size:.72rem;padding:1px 7px;margin-left:4px}
+.btn{display:inline-block;border:1px solid transparent;border-radius:9px;padding:10px 18px;font:500 .95rem Inter,sans-serif;cursor:pointer;text-decoration:none;transition:background .15s}
+.btn.p{background:var(--navy);color:#fff}.btn.p:hover{background:var(--navy2)}
+.btn.s{background:#fff;color:var(--navy);border-color:var(--line)}.btn.s:hover{background:var(--grey)}
+.btn.sm{padding:7px 12px;font-size:.88rem}
+.btn:disabled{opacity:.55;cursor:default}
+.hero{background:var(--grey);border-bottom:1px solid var(--line);padding:64px 0}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.lead{color:var(--mute);font-size:1.1rem;max-width:46ch}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.swap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 12px 30px -18px rgba(15,31,61,.35)}
+.swap .row{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:var(--grey)}
+.swap .row+.row{margin-top:10px}
+.av{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:600;flex:none}
+.av.b{background:var(--blue)}
+.swap small{color:var(--mute);display:block;font-size:.8rem}
+.swap strong{color:var(--navy)}
+.arrows{text-align:center;color:var(--blue);font-size:1.4rem;line-height:1;padding:8px 0 0;animation:flip 3.2s ease-in-out infinite}
+@keyframes flip{0%,100%{transform:none}50%{transform:scaleY(-1)}}
+@media(prefers-reduced-motion:reduce){.arrows{animation:none}html{scroll-behavior:auto}}
+section.blk{padding:56px 0}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.step{border-top:2px solid var(--navy);padding-top:14px}
+.step:before{counter-increment:s;content:counter(s);font:600 1.6rem Newsreader,serif;color:var(--blue)}
+.step p{color:var(--mute)}
+.stats{display:flex;gap:32px;flex-wrap:wrap;margin-top:32px;color:var(--mute);font-size:.92rem}
+.stats b{display:block;font:600 1.8rem Newsreader,serif;color:var(--navy)}
+.page{padding:36px 0 64px;min-height:70vh}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 24px}
+input,select,textarea{font:inherit;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fff;color:var(--text);min-width:0}
+input:focus,select:focus{border-color:var(--blue)}
+.tools input{flex:1 1 220px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.card header{all:unset;display:flex;gap:12px;align-items:center}
+.card .meta{color:var(--mute);font-size:.88rem}
+.lbl{font-size:.82rem;color:var(--mute);margin-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--blue-soft);color:var(--navy);border-radius:99px;padding:3px 11px;font-size:.84rem}
+.chip.g{background:var(--grey);color:var(--text)}
+.chip.hit{background:var(--navy);color:#fff}
+.chip button{all:unset;cursor:pointer;margin-left:6px;opacity:.6}
+.card .act{margin-top:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.match{margin-left:auto;font-size:.82rem;color:var(--ok);font-weight:600}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:20px 0}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;font:500 .95rem Inter,sans-serif;color:var(--mute);cursor:pointer}
+.tabs button.on{color:var(--navy);border-color:var(--navy)}
+.list{display:grid;gap:12px}
+.item{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;flex-wrap:wrap}
+.item .txt{flex:1 1 240px}
+.status{font-size:.8rem;border-radius:6px;padding:2px 9px;background:var(--grey);color:var(--mute)}
+.status.ok{background:#e6f3ec;color:var(--ok)}.status.no{background:#f7e8e7;color:var(--bad)}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:32px;text-align:center;color:var(--mute)}
+.form{max-width:560px;display:grid;gap:18px}
+.form label{display:block;font-weight:500;color:var(--navy);margin-bottom:6px}
+.form input{width:100%}
+.add{display:flex;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.kpi{background:var(--grey);border-radius:12px;padding:16px}
+.kpi b{font:600 1.8rem Newsreader,serif;color:var(--navy);display:block}
+.kpi span{color:var(--mute);font-size:.88rem}
+footer{background:var(--navy);color:#b9c3d8;padding:28px 0;font-size:.9rem}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;z-index:20}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media(max-width:760px){
+.hero .wrap,.steps{grid-template-columns:1fr}
+.hero{padding:40px 0}
+.menu{display:block}
+nav{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;padding:8px 20px 14px}
+nav.open{display:flex}
+.kpis{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="logo" href="#home"><i>S</i>SkillSwap</a>
+  <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav id="nav" aria-label="Main">
+    <a href="#home" data-p="home">Home</a>
+    <a href="#explore" data-p="explore">Explore</a>
+    <a href="#matches" data-p="matches">My matches</a>
+    <a href="#dashboard" data-p="dashboard">Dashboard<span class="badge" id="nb" hidden></span></a>
+    <a href="#profile" data-p="profile">Profile</a>
+  </nav>
+</div></header>
+
+<main id="app" tabindex="-1"></main>
+
+<footer><div class="wrap">SkillSwap – peer-to-peer learning for college students. Teach what you know, learn what you want, free.</div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------- Data ---------- */
+const STUDENTS=[
+ {id:1,name:"Priya Nair",major:"Computer Science, Year 3",teach:["Python","Data Analysis"],learn:["Guitar","Public Speaking"]},
+ {id:2,name:"Daniel Okafor",major:"Music, Year 2",teach:["Guitar","Music Theory"],learn:["Python","Video Editing"]},
+ {id:3,name:"Mei Lin",major:"Design, Year 4",teach:["Figma","Video Editing"],learn:["Spanish","Excel"]},
+ {id:4,name:"Lucas Fernandez",major:"Business, Year 3",teach:["Spanish","Public Speaking"],learn:["Figma","Python"]},
+ {id:5,name:"Aisha Khan",major:"Economics, Year 2",teach:["Excel","Statistics"],learn:["Photography","Guitar"]},
+ {id:6,name:"Tom Becker",major:"Film Studies, Year 1",teach:["Photography","Video Editing"],learn:["Statistics","Excel"]},
+ {id:7,name:"Sara Johansson",major:"Biology, Year 3",teach:["Statistics","Academic Writing"],learn:["Python","Figma"]},
+ {id:8,name:"Ravi Menon",major:"Engineering, Year 2",teach:["CAD Modelling","Excel"],learn:["Public Speaking","Academic Writing"]}
+];
+const DEFAULT_ME={name:"",major:"",teach:["Excel"],learn:["Python","Guitar"]};
+const SEED_REQ=[{id:"r1",from:2,status:"pending"},{id:"r2",from:7,status:"pending"}];
+
+let store={me:DEFAULT_ME,sent:{},incoming:SEED_REQ};
+try{const s=JSON.parse(localStorage.getItem("skillswap")||"null");if(s&&s.me)store=s}catch(e){}
+const save=()=>{try{localStorage.setItem("skillswap",JSON.stringify(store))}catch(e){}};
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const low=a=>a.map(x=>x.toLowerCase());
+const stu=id=>STUDENTS.find(s=>s.id===id);
+const initials=n=>n.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
+function overlap(s){
+  const t=low(store.me.teach),l=low(store.me.learn);
+  return{
+    theyTeach:s.teach.filter(x=>l.includes(x.toLowerCase())),
+    theyLearn:s.learn.filter(x=>t.includes(x.toLowerCase()))
+  };
+}
+const isMutual=s=>{const o=overlap(s);return o.theyTeach.length&&o.theyLearn.length};
+const score=s=>{const o=overlap(s);return o.theyTeach.length+o.theyLearn.length};
+let toastT;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2400)}
+const chips=(a,hit=[],cls="")=>a.map(x=>`<span class="chip ${hit.includes(x)?"hit":cls}">${esc(x)}</span>`).join("");
+
+/* ---------- Components ---------- */
+function studentCard(s){
+  const o=overlap(s),st=store.sent[s.id],mutual=o.theyTeach.length&&o.theyLearn.length;
+  const btn=st?`<span class="status ${st==="accepted"?"ok":st==="rejected"?"no":""}">${st==="pending"?"Request sent":st[0].toUpperCase()+st.slice(1)}</span>`
+    :`<button class="btn p sm" data-req="${s.id}">Request swap</button>`;
+  return `<article class="card">
+    <header><div class="av ${mutual?"b":""}">${initials(s.name)}</div><div><h3 style="margin:0">${esc(s.name)}</h3><div class="meta">${esc(s.major)}</div></div></header>
+    <div><div class="lbl">Can teach</div><div class="chips">${chips(s.teach,o.theyTeach,"g")}</div></div>
+    <div><div class="lbl">Wants to learn</div><div class="chips">${chips(s.learn,o.theyLearn,"g")}</div></div>
+    <div class="act">${btn}${mutual?`<span class="match">Mutual match</span>`:""}</div>
+  </article>`;
+}
+
+/* ---------- Views ---------- */
+const views={
+home(){
+  return `<section class="hero"><div class="wrap">
+    <div>
+      <h1>Teach what you know. Learn what you don’t.</h1>
+      <p class="lead">SkillSwap pairs college students who can teach each other. Trade an hour of Python for an hour of guitar – no money involved.</p>
+      <div class="cta"><a class="btn p" href="#profile">Create your profile</a><a class="btn s" href="#explore">Browse students</a></div>
+    </div>
+    <div class="swap" aria-label="Example of a skill swap">
+      <div class="row"><div class="av">PN</div><div><strong>Priya teaches Python</strong><small>Wants to learn Guitar</small></div></div>
+      <div class="arrows" aria-hidden="true">⇅</div>
+      <div class="row"><div class="av b">DO</div><div><strong>Daniel teaches Guitar</strong><small>Wants to learn Python</small></div></div>
+      <p style="margin:14px 0 0;color:var(--ok);font-weight:600;font-size:.9rem;text-align:center">Mutual match found</p>
+    </div>
+  </div></section>
+  <section class="blk"><div class="wrap">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><h3>List your skills</h3><p>Add what you can teach and what you want to learn.</p></div>
+      <div class="step"><h3>Find a match</h3><p>We highlight students who teach what you want and want what you teach.</p></div>
+      <div class="step"><h3>Swap and learn</h3><p>Send a request, agree on a time, and track it from your dashboard.</p></div>
+    </div>
+    <div class="stats"><div><b>${STUDENTS.length}</b>students listed</div><div><b>${new Set(STUDENTS.flatMap(s=>s.teach)).size}</b>skills on offer</div><div><b>$0</b>cost to join</div></div>
+  </div></section>`;
+},
+explore(){
+  const skills=[...new Set(STUDENTS.flatMap(s=>s.teach))].sort();
+  return `<div class="wrap page"><h2>Explore students</h2>
+  <p style="color:var(--mute)">Search by name or skill. Students who match your profile are marked.</p>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Search name or skill" aria-label="Search students">
+    <select id="f" aria-label="Filter by skill taught"><option value="">All skills</option>${skills.map(s=>`<option>${esc(s)}</option>`).join("")}</select>
+  </div><div id="res" class="grid"></div></div>`;
+},
+matches(){
+  const list=STUDENTS.filter(s=>score(s)>0).sort((a,b)=>(isMutual(b)-isMutual(a))||score(b)-score(a));
+  return `<div class="wrap page"><h2>My matches</h2>
+  <p style="color:var(--mute)">Based on your profile – you teach: ${esc(store.me.teach.join(", ")||"nothing yet")}; you want: ${esc(store.me.learn.join(", ")||"nothing yet")}.</p>
+  ${list.length?`<div class="grid" style="margin-top:20px">${list.map(studentCard).join("")}</div>`
+  :`<div class="empty">No matches yet. <a href="#profile">Add skills to your profile</a> to see students who fit.</div>`}</div>`;
+},
+dashboard(){
+  const inc=store.incoming.filter(r=>r.status==="pending");
+  const sent=Object.entries(store.sent).filter(([,v])=>v==="pending");
+  const act=[...store.incoming.filter(r=>r.status==="accepted").map(r=>r.from),...Object.entries(store.sent).filter(([,v])=>v==="accepted").map(([k])=>+k)];
+  const row=(s,extra,right)=>`<div class="item"><div class="av">${initials(s.name)}</div><div class="txt"><strong>${esc(s.name)}</strong><div class="meta" style="color:var(--mute);font-size:.88rem">${extra}</div></div>${right}</div>`;
+  const sw=s=>{const o=overlap(s);return `Teaches ${esc((o.theyTeach[0]||s.teach[0]))} · Wants ${esc((o.theyLearn[0]||s.learn[0]))}`.replace(" · "," and ")};
+  return `<div class="wrap page"><h2>Dashboard</h2>
+  <div class="kpis"><div class="kpi"><b>${inc.length}</b><span>Requests to answer</span></div><div class="kpi"><b>${sent.length}</b><span>Awaiting reply</span></div><div class="kpi"><b>${act.length}</b><span>Active exchanges</span></div></div>
+  <div class="tabs" role="tablist"><button class="on" data-tab="a">Incoming</button><button data-tab="b">Sent</button><button data-tab="c">Active</button></div>
+  <div id="ta" class="list">${inc.length?inc.map(r=>{const s=stu(r.from);return row(s,sw(s),`<div style="display:flex;gap:8px"><button class="btn p sm" data-acc="${r.id}">Accept</button><button class="btn s sm" data-rej="${r.id}">Decline</button></div>`)}).join(""):`<div class="empty">No pending requests. Share your profile to get more.</div>`}</div>
+  <div id="tb" class="list" hidden>${sent.length?sent.map(([id])=>{const s=stu(+id);return row(s,sw(s),`<span class="status">Waiting</span><button class="btn s sm" data-cancel="${id}">Cancel</button>`)}).join(""):`<div class="empty">No sent requests. <a href="#explore">Find someone to swap with.</a></div>`}</div>
+  <div id="tc" class="list" hidden>${act.length?act.map(id=>{const s=stu(id);return row(s,sw(s),`<span class="status ok">In progress</span><button class="btn s sm" data-done="${id}">Mark complete</button>`)}).join(""):`<div class="empty">No active exchanges yet. Accept a request to start one.</div>`}</div></div>`;
+},
+profile(){
+  const m=store.me;
+  const tags=(k)=>m[k].map((x,i)=>`<span class="chip">${esc(x)}<button data-rm="${k}:${i}" aria-label="Remove ${esc(x)}">×</button></span>`).join("")||`<span class="meta" style="color:var(--mute)">None added</span>`;
+  return `<div class="wrap page"><h2>Your profile</h2>
+  <p style="color:var(--mute)">Other students see this when you appear in Explore.</p>
+  <div class="form">
+    <div><label for="nm">Name</label><input id="nm" value="${esc(m.name)}" placeholder="e.g. Alex Morgan"></div>
+    <div><label for="mj">Course and year</label><input id="mj" value="${esc(m.major)}" placeholder="e.g. Psychology, Year 2"></div>
+    <div><label for="ti">Skills I can teach</label><div class="add"><input id="ti" placeholder="e.g. Excel" data-add="teach"><button class="btn s" data-addbtn="teach">Add</button></div><div class="chips" style="margin-top:10px">${tags("teach")}</div></div>
+    <div><label for="li">Skills I want to learn</label><div class="add"><input id="li" placeholder="e.g. Guitar" data-add="learn"><button class="btn s" data-addbtn="learn">Add</button></div><div class="chips" style="margin-top:10px">${tags("learn")}</div></div>
+    <div><button class="btn p" id="sv">Save profile</button></div>
+  </div></div>`;
+}};
+
+/* ---------- Router ---------- */
+function route(){
+  const p=(location.hash||"#home").slice(1);
+  const v=views[p]?p:"home";
+  $("#app").innerHTML=views[v]();
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.p===v));
+  $("#nav").classList.remove("open");$("#menu").setAttribute("aria-expanded","false");
+  badge();
+  if(v==="explore")filter();
+  scrollTo(0,0);
+}
+function badge(){
+  const n=store.incoming.filter(r=>r.status==="pending").length,b=$("#nb");
+  b.hidden=!n;b.textContent=n;
+}
+function filter(){
+  const q=($("#q").value||"").toLowerCase(),f=$("#f").value;
+  const r=STUDENTS.filter(s=>(!f||s.teach.includes(f))&&(!q||(s.name+" "+s.teach.join(" ")+" "+s.learn.join(" ")).toLowerCase().includes(q)));
+  $("#res").innerHTML=r.length?r.map(studentCard).join(""):`<div class="empty" style="grid-column:1/-1">No students found. Try a different skill or clear the search.</div>`;
+}
+function addSkill(k){
+  const inp=$(k==="teach"?"#ti":"#li"),v=inp.value.trim();
+  if(!v)return toast("Type a skill first");
+  if(low(store.me[k]).includes(v.toLowerCase()))return toast("Already on your list");
+  store.me[k].push(v);save();
+  const nm=$("#nm").value,mj=$("#mj").value;route();$("#nm").value=nm;$("#mj").value=mj;
+}
+
+/* ---------- Events ---------- */
+addEventListener("hashchange",route);
+$("#menu").onclick=()=>{const o=$("#nav").classList.toggle("open");$("#menu").setAttribute("aria-expanded",o)};
+document.addEventListener("input",e=>{if(e.target.id==="q")filter()});
+document.addEventListener("change",e=>{if(e.target.id==="f")filter()});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.dataset.add){e.preventDefault();addSkill(e.target.dataset.add)}});
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button");if(!t)return;
+  const d=t.dataset;
+  if(d.req){store.sent[d.req]="pending";save();toast("Request sent to "+stu(+d.req).name);route();}
+  else if(d.acc||d.rej){const r=store.incoming.find(x=>x.id===(d.acc||d.rej));r.status=d.acc?"accepted":"rejected";save();toast(d.acc?"Request accepted":"Request declined");route();}
+  else if(d.cancel){delete store.sent[d.cancel];save();toast("Request cancelled");route();}
+  else if(d.done){const id=+d.done,r=store.incoming.find(x=>x.from===id&&x.status==="accepted");if(r)r.status="done";else store.sent[id]="done";save();toast("Exchange marked complete");route();}
+  else if(d.addbtn)addSkill(d.addbtn);
+  else if(d.rm){const[k,i]=d.rm.split(":");store.me[k].splice(+i,1);save();const nm=$("#nm").value,mj=$("#mj").value;route();$("#nm").value=nm;$("#mj").value=mj;}
+  else if(t.id==="sv"){store.me.name=$("#nm").value.trim();store.me.major=$("#mj").value.trim();save();toast("Profile saved");}
+  else if(d.tab){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b===t));["a","b","c"].forEach(x=>$("#t"+x).hidden=x!==d.tab);}
+});
+route();
+</script>
+</body>
+</html>
